@@ -1,0 +1,35 @@
+server:
+#  注意这里使用的负载均衡的写法，所以便于测试复制一个本项目把端口8093改为8095，也可以在运行模板中修改运行端口会覆盖配置文件里面的，搭建集群时建议使用（复制多个模板启用）
+  port: 8093
+spring:
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/vue01?useUnicode=true&characterEncoding=utf8
+    username: root
+    password: cjp19980628
+    druid:
+      initial-size: 1
+      min-idle: 1
+      max-active: 20
+      test-on-borrow: true
+      stat-view-servlet:
+        allow: true
+  application:
+#    注意服务器名称不能使用下划线连接，可以使用中划线连接
+    name: user-service
+eureka:
+  client:
+    service-url:
+#     eureka注册的地址，根据这个地址去注册
+      defaultZone: http://127.0.0.1:8090/eureka,http://127.0.0.1:8091/eureka,http://127.0.0.1:8092/eureka
+  instance:
+#   其他服务获取此服务时不响应服务名称，而是响应该服务的ip
+    prefer-ip-address: true
+#   指定自己的ip信息，不指定的话会自己寻找
+    ip-address: 127.0.0.1
+#   服务失效时间，默认值90秒
+    lease-expiration-duration-in-seconds: 90
+#   服务续约(renew)的间隔，默认为30秒
+    lease-renewal-interval-in-seconds: 30
+
+
